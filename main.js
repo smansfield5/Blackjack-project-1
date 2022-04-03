@@ -1,6 +1,6 @@
 /*----- constants -----*/
-let player = [];
-let dealer = [];
+let playerHand = [];
+let dealerHand = [];
 const suits = ['s', 'c', 'd', 'h'];
 const ranks = ['02', '03', '04', '05', '06', '07', '08', '09', '10', 'J', 'Q', 'K', 'A'];
 
@@ -11,21 +11,46 @@ let results; //Determines which hand wins
 let winner; // Checks 
 
 /*----- cached element references -----*/
-cards = [];
+deck = [];
 
 /*----- event listeners -----*/
 
 
 /*----- functions -----*/
-init()
-function init() {
-    player.push()
-    dealer.push()
+// init();
+// function init() {
+//     game = {
+//         playerHand: [],
+//         dealerHand: []
+//     }
 
-    render()
-}
+//     render()
+// }
 
 // render() {
 //     //renderHand()
 //     //renderBank()
 // };
+
+// function determineWinner() {
+//     if (playerHand === dealerHand) {
+//         return Draw
+//     } else if (playerHand === 21 || dealerHand === 21) {
+//         return Blackjack
+//     } else if ()
+// }
+
+function deal() {
+    let rndDeck = ranks[Math.floor(Math.random() * ranks.length)];
+    playerHand.push(rndDeck)
+    rndDeck = ranks[Math.floor(Math.random() * ranks.length)];
+    dealerHand.push(rndDeck)
+    rndDeck = ranks[Math.floor(Math.random() * ranks.length)];
+    playerHand.push(rndDeck)
+    rndDeck = ranks[Math.floor(Math.random() * ranks.length)];
+    dealerHand.push(rndDeck)
+console.log(playerHand)
+console.log(dealerHand)
+}
+deal()
+
