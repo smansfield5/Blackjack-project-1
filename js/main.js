@@ -3,60 +3,7 @@
 const suits = ['s', 'c', 'd', 'h'];
 const ranks = ['02', '03', '04', '05', '06', '07', '08', '09', '10', 'J', 'Q', 'K', 'A'];
 const masterDeck = buildMasterDeck();
-// const ranks = [
-//         { value: 11, card: "dA" },
-//         { value: 11, card: "hA" },
-//         { value: 11, card: "cA" },
-//         { value: 11, card: "sA" },
-//         { value: 2, card: "d02" },
-//         { value: 2, card: "h02" },
-//         { value: 2, card: "c02" },
-//         { value: 2, card: "s02" },
-//         { value: 3, card: "d03" },
-//         { value: 3, card: "h03" },
-//         { value: 3, card: "c03" },
-//         { value: 3, card: "s03" },
-//         { value: 4, card: "d04" },
-//         { value: 4, card: "h04" },
-//         { value: 4, card: "c04" },
-//         { value: 4, card: "s04" },
-//         { value: 5, card: "d05" },
-//         { value: 5, card: "h05" },
-//         { value: 5, card: "c05" },
-//         { value: 5, card: "s05" },
-//         { value: 6, card: "d06" },
-//         { value: 6, card: "h06" },
-//         { value: 6, card: "c06" },
-//         { value: 6, card: "s06" },
-//         { value: 7, card: "d07" },
-//         { value: 7, card: "h07" },
-//         { value: 7, card: "c07" },
-//         { value: 7, card: "s07" },
-//         { value: 8, card: "d08" },
-//         { value: 8, card: "h08" },
-//         { value: 8, card: "c08" },
-//         { value: 8, card: "s08" },
-//         { value: 9, card: "d09" },
-//         { value: 9, card: "h09" },
-//         { value: 9, card: "c09" },
-//         { value: 9, card: "s09" },
-//         { value: 10, card: "d10" },
-//         { value: 10, card: "h10" },
-//         { value: 10, card: "c10" },
-//         { value: 10, card: "s10" },
-//         { value: 10, card: "dJ" },
-//         { value: 10, card: "hJ" },
-//         { value: 10, card: "cJ" },
-//         { value: 10, card: "sJ" },
-//         { value: 10, card: "dQ" },
-//         { value: 10, card: "hQ" },
-//         { value: 10, card: "cQ" },
-//         { value: 10, card: "sQ" },
-//         { value: 10, card: "dK" },
-//         { value: 10, card: "hK" },
-//         { value: 10, card: "cK" },
-//         { value: 10, card: "sK" }
-// ]
+
 
 const player = {
     playerHand: [],
@@ -71,20 +18,22 @@ const dealer = {
 //let bank = 2000; //An object with the players money amount to play with
 let results; //Determines which hand wins
 let winner; // Checks 
-//let playerHand = [];
-//let dealerHand = [];
 let redChip = 500;
 let yellowChip = 250;
+let playerCard;
+let dealerCard;
 
 /*----- cached element references -----*/
-deck = [];
-const dealButton = document.getElementById('deal')
-const playerCards = document.getElementById('player-cards')
-const dealerCards = document.getElementById('dealer-cards')
+const dealButton = document.getElementById('deal');
+const playerCards = document.getElementById('player-cards');
+const dealerCards = document.getElementById('dealer-cards');
+const hitButton = document.getElementById('hit');
+const stayButton = document.getElementById('stay');
+
 /*----- event listeners -----*/
-hit.addEventListener('click', playerHit);
-stay.addEventListener('click', playerStay);
-dealButton.addEventListener('click', deal)
+hitButton.addEventListener('click', hit);
+stayButton.addEventListener('click', stay);
+dealButton.addEventListener('click', deal);
 
 /*----- functions -----*/
 init();
@@ -95,21 +44,30 @@ function init() {
 }
 
 function render() {
-    renderGame();
-
-    // renderHand();
-    // renderBank();
+    getNewShuffledDeck()
+    renderGame()
+    renderPlayerHand()
+    //hit()
 }
 
 function renderGame() {
-    getNewShuffledDeck()
+    
 }
 
 function renderPlayerHand() {
+    renderGame();
     player.playerHand.forEach((card, index) => {
-        console.log(card)
+        //console.log(card)
         let cardInHand = `<div class="card ${card.face}"></div>`
         playerCards.innerHTML= cardInHand;
+       
+    })
+}
+
+function renderDealerHand() {
+    dealer.dealerHand.forEach((card, index) => {
+        //console.log('dealer')
+        let dealerHand = `<div class="card ${card.face}"></div>`
     })
 }
 
@@ -129,37 +87,35 @@ function yellowBet() {
     balance -= 250;
 }
 
-// function deal() {
-//     let rndDeck = ranks[Math.floor(Math.random() * newShuffledDeck.length)];
-//     playerHand.push(rndDeck)
-//     rndDeck = ranks[Math.floor(Math.random() * ranks.length)];
-//     dealerHand.push(rndDeck)
-//     rndDeck = ranks[Math.floor(Math.random() * ranks.length)];
-//     playerHand.push(rndDeck)
-//     rndDeck = ranks[Math.floor(Math.random() * ranks.length)];
-//     dealerHand.push(rndDeck)
-// console.log(playerHand)
-// console.log(dealerHand)
-// }
-// deal()
+
 
 function deal() {
-    console.log('hello')
-    let playerCard = masterDeck.pop();
+    //console.log('hello')
+    playerCard = masterDeck.pop();
     player.playerHand.push(playerCard);
+    dealerCard = masterDeck.pop();
+    dealer.dealerHand.push(dealerCard)
+    playerCard = masterDeck.pop();
+    player.playerHand.push(playerCard);
+    dealerCard = masterDeck.pop();
+    dealer.dealerHand.push(dealerCard)
     console.log(player.playerHand)
+    console.log('dealer')
+    console.log(dealer.dealerHand)
     render()
 }
 
-function playerHit() {
-
+function hit() {
+    playerCard = masterDeck.pop();
+    player.playerHand.push(playerCard);
+    console.log(player.playerHand)
 }
 
 function dealerHit() {
  
 }
 
-function playerStay() {
+function stay() {
 
 }
 
@@ -190,7 +146,7 @@ function getNewShuffledDeck() {
     // Note the [0] after splice - this is because splice always returns an array and we just want the card object in that array
     newShuffledDeck.push(tempDeck.splice(rndIdx, 1)[0]);
   }
-  console.log(newShuffledDeck)
+  //console.log(newShuffledDeck)
   return newShuffledDeck;
 }
 
