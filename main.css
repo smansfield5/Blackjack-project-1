@@ -13,20 +13,23 @@ html {
 }
 
 h1 {
-    display: flex;
+    display: grid;
     justify-content: center;
     color: crimson;
     font-size: 50px;
     flex-wrap: wrap; 
+    border: 2px solid rgb(97, 223, 35);
     
 }
 
 footer {
     display: flex;
-    /* flex-direction: row; */
     justify-content: center;
     align-items: flex-end;
-    align-self: flex-end;
+       
+
+    
+
    
 }
 
@@ -34,6 +37,31 @@ footer {
     margin: 5px;
     height: 75px;
     width: 75px;
+    border: 2px solid rgb(97, 223, 35);
+    background-color: blue;
+    color: white;
+    font-size: 25px;;
+    border-radius: 30%;
+   
+}
+
+#deal {
+    background-color: blue;
+    height: 60px;
+    width: 60px;
+    margin: 10px;
+    color: white;
+    border: 3px solid rgb(97, 223, 35);
+    border-radius: 30%;
+}
+
+#place-bet {
+    border-radius: 20%;
+    border: 3px solid rgb(97, 223, 35);
+    height: 60px;
+    width: 100px;
+    background-color: blue;
+    color: white;
 }
 
 #chips1 {
@@ -43,14 +71,22 @@ footer {
     background-color: yellow;
     color: black;
     border: 6px dashed black;
+    font-style: oblique;
+    font-weight: bolder;
+    font-size: 20px;
+    text-decoration: underline;
 }
 #chips2 {
     border-radius: 50px;
     height: 70px;
     width: 70px;
     background-color: red;
-    color: white;
+    color: black;
     border: 6px dashed black;
+    font-style: oblique;
+    font-weight: bolder;
+    font-size: 20px;
+    text-decoration: underline;
 }
 
 .class {
