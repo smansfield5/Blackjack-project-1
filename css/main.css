@@ -75,6 +75,7 @@ footer {
     font-weight: bolder;
     font-size: 20px;
     text-decoration: underline;
+    margin: 10px;
 }
 #chips2 {
     border-radius: 50px;
@@ -87,6 +88,7 @@ footer {
     font-weight: bolder;
     font-size: 20px;
     text-decoration: underline;
+    margin: 10px;
 }
 
 .class {
@@ -95,7 +97,11 @@ footer {
     flex-direction: column;
 }
 
-
+button {
+    display: grid;
+    grid-area: unset;
+    align-content: center;
+}
 
 
 

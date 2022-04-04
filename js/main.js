@@ -57,7 +57,7 @@ const ranks = [
 
 
 /*----- app's state (variables) -----*/
-let bank; //An object with the players money amount to play with
+let bank = 2000; //An object with the players money amount to play with
 let results; //Determines which hand wins
 let winner; // Checks 
 let playerHand = [];
@@ -69,7 +69,8 @@ let yellowChip = 250;
 deck = [];
 
 /*----- event listeners -----*/
-hit.addEventListener('click', playerHit)
+hit.addEventListener('click', playerHit);
+stay.addEventListener('click', playerStay);
 
 /*----- functions -----*/
 // init();
@@ -127,9 +128,14 @@ deal()
 function playerHit() {
     let rndDeck = ranks[Math.floor(Math.random() * ranks.length)];
     playerHand.push(rndDeck)
+    console.log(playerHand)
 }
 
 function dealerHit() {
     rndDeck = ranks[Math.floor(Math.random() * ranks.length)];
     dealerHand.push(rndDeck)
+}
+
+function playerStay() {
+
 }
