@@ -5,17 +5,19 @@
 
 
 html {
-    background: url(https://t3.ftcdn.net/jpg/03/49/67/76/360_F_349677668_dCQUwNDDHZagmThrdDOJ3UymDBZ9Jx0m.jpg);
+   background-image: url(https://t3.ftcdn.net/jpg/03/49/67/76/360_F_349677668_dCQUwNDDHZagmThrdDOJ3UymDBZ9Jx0m.jpg);
     height: 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    background-color: black;
+    margin-top: 30px;
 }
 
 h1 {
     display: grid;
     justify-content: center;
-    color: crimson;
+    color: Black;
     font-size: 50px;
     flex-wrap: wrap; 
     border: 2px solid rgb(97, 223, 35);

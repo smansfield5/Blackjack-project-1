@@ -29,11 +29,15 @@ const playerCards = document.getElementById('player-cards');
 const dealerCards = document.getElementById('dealer-cards');
 const hitButton = document.getElementById('hit');
 const stayButton = document.getElementById('stay');
+const chipButton1 = document.getElementById('chips1')
+const chipButton2 = document.getElementById('chips2')
 
 /*----- event listeners -----*/
 hitButton.addEventListener('click', hit);
 stayButton.addEventListener('click', stay);
 dealButton.addEventListener('click', deal);
+chipButton1.addEventListener('click', yellowBet)
+chipButton2.addEventListener('click', redBet)
 
 /*----- functions -----*/
 init();
@@ -44,9 +48,12 @@ function init() {
 }
 
 function render() {
-    getNewShuffledDeck()
-    renderGame()
-    renderPlayerHand()
+    getNewShuffledDeck();
+    renderGame();
+    renderPlayerHand();
+    redBet();
+    yellowBet();
+
     //hit()
 }
 
@@ -80,11 +87,13 @@ function renderDealerHand() {
 // }
 
 function redBet() {
-    balance -= 500;
+    player.bank -= 500;
+    console.log('redChip')
 }
 
 function yellowBet() {
-    balance -= 250;
+    player.bank -= 250;
+    console.log('yellow')
 }
 
 
