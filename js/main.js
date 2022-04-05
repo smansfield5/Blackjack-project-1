@@ -52,8 +52,7 @@ function render() {
     renderGame();
     renderHand();
     //renderPlayerHand();
-    redBet();
-    yellowBet();
+  
     //renderDealerHand();
     
     //hit()
@@ -88,15 +87,18 @@ function renderHand() {
 //     } else if ()
 // }
 
+
+
 function redBet() {
-    
     bank.innerHTML = player.bank; 
     player.bank -= redChip;
+    chipButton2.style.visibility = "hidden";
 }
 
 function yellowBet() {
     bank.innerHTML = player.bank
     player.bank -= yellowChip;
+    chipButton1.style.visibility = "hidden";
 }
 
 
@@ -116,13 +118,22 @@ function deal() {
     console.log(player.playerHand)
     console.log('dealer')
     console.log(dealer.dealerHand)
+    dealButton.style.visibility = "hidden";
     render()
+    
 }
 
 function hit() {
     playerCard = newDeck.pop();
     player.playerHand.push(playerCard);
-    console.log(player.playerHand)
+    player.playerHand.forEach(function(card) {
+      const cardEl = document.createElement('div');
+      cardEl.className = `card ${card.face}`
+      playerCards.appendChild(cardEl)
+      console.log(player.playerHand)
+  })
+    
+  
 }
 
 function dealerHit() {
@@ -163,7 +174,7 @@ function getNewShuffledDeck() {
     // Note the [0] after splice - this is because splice always returns an array and we just want the card object in that array
     newShuffledDeck.push(tempDeck.splice(rndIdx, 1)[0]);
   }
-  console.log(newShuffledDeck)
+  //console.log(newShuffledDeck)
   return newShuffledDeck;
 }
 
