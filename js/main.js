@@ -3,7 +3,7 @@
 const suits = ['s', 'c', 'd', 'h'];
 const ranks = ['02', '03', '04', '05', '06', '07', '08', '09', '10', 'J', 'Q', 'K', 'A'];
 const masterDeck = buildMasterDeck();
-
+const newDeck = getNewShuffledDeck()
 
 const player = {
     playerHand: [],
@@ -42,18 +42,19 @@ chipButton2.addEventListener('click', redBet)
 /*----- functions -----*/
 init();
 function init() {
-    
-    
+  
+  getNewShuffledDeck();
     render()
 }
 
 function render() {
-    getNewShuffledDeck();
+    
     renderGame();
     renderPlayerHand();
     redBet();
     yellowBet();
-
+    renderDealerHand();
+    
     //hit()
 }
 
@@ -63,18 +64,20 @@ function renderGame() {
 
 function renderPlayerHand() {
     renderGame();
+    
     player.playerHand.forEach((card, index) => {
         //console.log(card)
         let cardInHand = `<div class="card ${card.face}"></div>`
-        playerCards.innerHTML= cardInHand;
-       
+        playerCards.innerHTML= cardInHand;    
     })
 }
 
 function renderDealerHand() {
     dealer.dealerHand.forEach((card, index) => {
         //console.log('dealer')
-        let dealerHand = `<div class="card ${card.face}"></div>`
+        let cardInDealerHand = `<div class="card ${card.back}"></div>`
+         dealerCards.innerHTML = cardInDealerHand;
+        // let faceDownCard = `<div class="card ${card.back}"></div>`
     })
 }
 
@@ -87,12 +90,12 @@ function renderDealerHand() {
 // }
 
 function redBet() {
-    player.bank -= 500;
+    player.bank -= redChip;
     console.log('redChip')
 }
 
 function yellowBet() {
-    player.bank -= 250;
+    player.bank -= yellowChip;
     console.log('yellow')
 }
 
@@ -100,13 +103,15 @@ function yellowBet() {
 
 function deal() {
     //console.log('hello')
-    playerCard = masterDeck.pop();
+    
+    //console.log(shuffledDeck)
+    playerCard = newDeck.pop();
     player.playerHand.push(playerCard);
-    dealerCard = masterDeck.pop();
+    dealerCard = newDeck.pop();
     dealer.dealerHand.push(dealerCard)
-    playerCard = masterDeck.pop();
+    playerCard = newDeck.pop();
     player.playerHand.push(playerCard);
-    dealerCard = masterDeck.pop();
+    dealerCard = newDeck.pop();
     dealer.dealerHand.push(dealerCard)
     console.log(player.playerHand)
     console.log('dealer')
@@ -115,13 +120,16 @@ function deal() {
 }
 
 function hit() {
-    playerCard = masterDeck.pop();
+    playerCard = newDeck.pop();
     player.playerHand.push(playerCard);
     console.log(player.playerHand)
 }
 
 function dealerHit() {
- 
+ if (dealerCards < 17){
+    dealerCard = newDeck.pop();
+    dealer.dealerHand.push(dealerCard)
+  }
 }
 
 function stay() {
@@ -155,11 +163,15 @@ function getNewShuffledDeck() {
     // Note the [0] after splice - this is because splice always returns an array and we just want the card object in that array
     newShuffledDeck.push(tempDeck.splice(rndIdx, 1)[0]);
   }
-  //console.log(newShuffledDeck)
+  console.log(newShuffledDeck)
   return newShuffledDeck;
 }
 
-
+function renderNewShuffledDeck() {
+  // Create a copy of the masterDeck (leave masterDeck untouched!)
+  shuffledDeck = getNewShuffledDeck();
+  renderDeckInContainer(shuffledDeck, shuffledContainer);
+}
 
 
 

@@ -24,6 +24,11 @@ h1 {
     
 }
 
+div {
+    display: flex;
+    justify-content: center;
+}
+
 footer {
     display: flex;
     justify-content: center;
@@ -100,11 +105,11 @@ footer {
     flex-direction: column;
 }
 
-button {
+/* button {
     display: grid;
     grid-area: unset;
     align-content: center;
-}
+} */
 
 
 
