@@ -43,17 +43,18 @@ chipButton2.addEventListener('click', redBet)
 init();
 function init() {
   
-  getNewShuffledDeck();
+  
     render()
 }
 
 function render() {
-    
+    getNewShuffledDeck();
     renderGame();
-    renderPlayerHand();
+    renderHand();
+    //renderPlayerHand();
     redBet();
     yellowBet();
-    renderDealerHand();
+    //renderDealerHand();
     
     //hit()
 }
@@ -62,24 +63,22 @@ function renderGame() {
     
 }
 
-function renderPlayerHand() {
-    renderGame();
-    
-    player.playerHand.forEach((card, index) => {
-        //console.log(card)
-        let cardInHand = `<div class="card ${card.face}"></div>`
-        playerCards.innerHTML= cardInHand;    
-    })
+function renderHand() {
+  
+  player.playerHand.forEach(function(card) {
+    const cardEl = document.createElement('div');
+    cardEl.className = `card ${card.face}`
+    playerCards.appendChild(cardEl)
+})
+  dealer.dealerHand.forEach(function(card, index) {
+    const cardEl = document.createElement('div');
+    cardEl.className = index === 0 ? `card ${card.face}` : `card back`
+    dealerCards.appendChild(cardEl)
+});
+
 }
 
-function renderDealerHand() {
-    dealer.dealerHand.forEach((card, index) => {
-        //console.log('dealer')
-        let cardInDealerHand = `<div class="card ${card.back}"></div>`
-         dealerCards.innerHTML = cardInDealerHand;
-        // let faceDownCard = `<div class="card ${card.back}"></div>`
-    })
-}
+
 
 // function determineWinner() {
 //     if (playerHand === dealerHand) {
@@ -90,13 +89,14 @@ function renderDealerHand() {
 // }
 
 function redBet() {
+    
+    bank.innerHTML = player.bank; 
     player.bank -= redChip;
-    console.log('redChip')
 }
 
 function yellowBet() {
+    bank.innerHTML = player.bank
     player.bank -= yellowChip;
-    console.log('yellow')
 }
 
 
@@ -184,7 +184,7 @@ function buildMasterDeck() {
         // The 'face' property maps to the library's CSS classes for cards
         face: `${suit}${rank}`,
         // Setting the 'value' property for game of blackjack, not war
-        value: Number(rank) || (rank === 'A' ? 11 : 10)
+        value: Number(rank) || (rank === 'A' ? 11 : 1)
       });
     });
   });
