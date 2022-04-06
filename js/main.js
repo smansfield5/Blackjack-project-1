@@ -79,26 +79,32 @@ function renderHand() {
 
 
 
-// function determineWinner() {
-//     if (playerHand === dealerHand) {
-//         return Draw
-//     } else if (playerHand === 21 || dealerHand === 21) {
-//         return Blackjack
-//     } else if ()
-// }
+function determineWinner() {
+    if (playerHand === dealerHand) {
+        return 'Draw'
+    } else if (playerHand === 21 || dealerHand === 21) {
+        return 'Blackjack!'
+    } else if (playerHand > 21 || dealerHand > 21) {
+      return 'Bust'
+    } else if (playerHand > dealerHand) {
+      return 'Player Wins!'
+    } else if (dealerHand > playerHand) {
+      return 'Dealer Wins!'
+    }
+}
 
 
 
 function redBet() {
     bank.innerHTML = player.bank; 
     player.bank -= redChip;
-    chipButton2.style.visibility = "hidden";
+    //chipButton2.style.visibility = "hidden";
 }
 
 function yellowBet() {
     bank.innerHTML = player.bank
     player.bank -= yellowChip;
-    chipButton1.style.visibility = "hidden";
+    //chipButton1.style.visibility = "hidden";
 }
 
 
