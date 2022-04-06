@@ -23,6 +23,8 @@ let yellowChip = 250;
 let playerCard;
 let dealerCard;
 let staying; //keeps track of when plays turn is over
+//let playerTotal;
+//let dealerTotal;
 
 /*----- cached element references -----*/
 const dealButton = document.getElementById('deal');
@@ -52,11 +54,7 @@ function render() {
     getNewShuffledDeck();
     renderGame();
     renderHand();
-    //renderPlayerHand();
-  
-    //renderDealerHand();
-    
-    //hit()
+    total()
 }
 
 function renderGame() {
@@ -80,42 +78,43 @@ function renderHand() {
 
 
 
-function determineWinner() {
-    if (playerHand === dealerHand) {
-        return 'Draw'
-    } else if (playerHand === 21 || dealerHand === 21) {
-        return 'Blackjack!'
-    } else if (playerHand > 21 || dealerHand > 21) {
-      return 'Bust'
-    } else if (playerHand > dealerHand) {
-      return 'Player Wins!'
-    } else if (dealerHand > playerHand) {
-      return 'Dealer Wins!'
-    }
-}
+// function determineWinner() {
+  
+//     if (playerTotal === dealerTotal) {
+//         console.log('Draw')
+//     } else if (playerTotal === 21 || dealerTotal === 21) {
+//         console.log('Blackjack!')
+//     } else if (playerTotal > 21 || dealerTotal > 21) {
+//       console.log('Bust')
+//     } else if (playerTotal > dealerTotal) {
+//       console.log('Player Wins!')
+//     } else if (playerTotal < dealerTotal) {
+//       console.log('Dealer Wins!')
+//     } else {
+//       console.log('not working')
+//     }
+//   }
 
-
+// function payOut() {
+//   if (player)
+// }
 
 function redBet() {
   player.bank -= redChip;
     bank.innerHTML = player.bank; 
     
-    //chipButton2.style.visibility = "hidden";
 }
 
 function yellowBet() {
   player.bank -= yellowChip;
     bank.innerHTML = player.bank
     
-    //chipButton1.style.visibility = "hidden";
+    
 }
 
 
 
 function deal() {
-    //console.log('hello')
-    
-    //console.log(shuffledDeck)
     playerCard = newDeck.pop();
     player.playerHand.push(playerCard);
     dealerCard = newDeck.pop();
@@ -124,12 +123,14 @@ function deal() {
     player.playerHand.push(playerCard);
     dealerCard = newDeck.pop();
     dealer.dealerHand.push(dealerCard)
-    console.log(player.playerHand)
-    console.log('dealer')
-    console.log(dealer.dealerHand)
+    // console.log('player')
+    // console.log(player.playerHand)
+    // console.log('dealer')
+    // console.log(dealer.dealerHand)
     dealButton.style.visibility = "hidden";
+    chipButton2.style.visibility = "hidden";
+    chipButton1.style.visibility = "hidden";
     render()
-    
 }
 
 function hit() {
@@ -140,7 +141,7 @@ function hit() {
       const cardEl = document.createElement('div');
       cardEl.className = `card ${card.face}`
       playerCards.appendChild(cardEl)
-      console.log(player.playerHand)
+      //console.log(player.playerHand)
   })
     render();
   
@@ -163,16 +164,77 @@ function dealerHit() {
     dealerCard = newDeck.pop();
     dealer.dealerHand.push(dealerCard)
   } else {
-    return 'stay'
+    staying = true
   }
+  render()
 }
 
 function stay() {
   staying = true;
+  dealerHit()
+  //determineWinner()
   render();
+  //console.log(dealerTotal)
+  //console.log(determineWinner)
+}
+
+function  total() {
+  let playerTotal = 0
+  for (let p = 0; p < player.playerHand.length; p++) {
+  playerTotal = playerTotal + player.playerHand[p].value;
+  }    
+  console.log('player')
+  console.log(playerTotal)
+  let dealerTotal = 0;
+for (let d = 0; d < dealer.dealerHand.length; d++) {
+  dealerTotal += dealer.dealerHand[d].value;
+} 
+console.log('dealer')
+  console.log(dealerTotal)
+    
+  if (playerTotal === dealerTotal) {
+    console.log('Draw')
+} else if (playerTotal === 21 || dealerTotal === 21) {
+    console.log('Blackjack!')
+} else if (playerTotal > 21) {
+  console.log('Player Bust')
+} else if (dealerTotal > 21) {
+  console.log('Dealer Bust')
+} else if (playerTotal > dealerTotal) {
+  console.log('Player Wins!')
+} else if (playerTotal < dealerTotal) {
+  console.log('Dealer Wins!')
+} else {
+  console.log('not working')
+}
+
 }
 
 
+
+
+// function dealerTotal() {
+//   let dealerTotal = 0;
+// for (let d = 0; d < dealer.dealerHand.length; d++) {
+//   dealerTotal += dealer.dealerHand[d].value;
+// } 
+// console.log('dealer')
+//   console.log(dealerTotal)
+    
+//   if (playerTotal === dealerTotal) {
+//     console.log('Draw')
+// } else if (playerTotal === 21 || dealerTotal === 21) {
+//     console.log('Blackjack!')
+// } else if (playerTotal > 21 || dealerTotal > 21) {
+//   console.log('Bust')
+// } else if (playerTotal > dealerTotal) {
+//   console.log('Player Wins!')
+// } else if (playerTotal < dealerTotal) {
+//   console.log('Dealer Wins!')
+// } else {
+//   console.log('not working')
+// }
+// }
 
 
 // Build a 'master' deck of 'card' objects used to create shuffled decks
@@ -220,7 +282,7 @@ function buildMasterDeck() {
         // The 'face' property maps to the library's CSS classes for cards
         face: `${suit}${rank}`,
         // Setting the 'value' property for game of blackjack, not war
-        value: Number(rank) || (rank === 'A' ? 11 : 1)
+        value: Number(rank) || (rank === 'A' ? 11 : 10)
       });
     });
   });
