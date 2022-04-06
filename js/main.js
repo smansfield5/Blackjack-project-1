@@ -23,8 +23,8 @@ let yellowChip = 250;
 let playerCard;
 let dealerCard;
 let staying; //keeps track of when plays turn is over
-//let playerTotal;
-//let dealerTotal;
+let playerTotal;
+let dealerTotal;
 
 /*----- cached element references -----*/
 const dealButton = document.getElementById('deal');
@@ -55,6 +55,7 @@ function render() {
     renderGame();
     renderHand();
     total()
+    determineWinner()
 }
 
 function renderGame() {
@@ -179,19 +180,23 @@ function stay() {
 }
 
 function  total() {
-  let playerTotal = 0
+  playerTotal = 0
   for (let p = 0; p < player.playerHand.length; p++) {
-  playerTotal = playerTotal + player.playerHand[p].value;
+  playerTotal += player.playerHand[p].value;
   }    
   console.log('player')
   console.log(playerTotal)
-  let dealerTotal = 0;
+  dealerTotal = 0;
 for (let d = 0; d < dealer.dealerHand.length; d++) {
   dealerTotal += dealer.dealerHand[d].value;
 } 
 console.log('dealer')
   console.log(dealerTotal)
-    
+  
+}
+
+function determineWinner() {
+  
   if (playerTotal === dealerTotal) {
     console.log('Draw')
 } else if (playerTotal === 21 || dealerTotal === 21) {
@@ -206,35 +211,9 @@ console.log('dealer')
   console.log('Dealer Wins!')
 } else {
   console.log('not working')
+  }
+  
 }
-
-}
-
-
-
-
-// function dealerTotal() {
-//   let dealerTotal = 0;
-// for (let d = 0; d < dealer.dealerHand.length; d++) {
-//   dealerTotal += dealer.dealerHand[d].value;
-// } 
-// console.log('dealer')
-//   console.log(dealerTotal)
-    
-//   if (playerTotal === dealerTotal) {
-//     console.log('Draw')
-// } else if (playerTotal === 21 || dealerTotal === 21) {
-//     console.log('Blackjack!')
-// } else if (playerTotal > 21 || dealerTotal > 21) {
-//   console.log('Bust')
-// } else if (playerTotal > dealerTotal) {
-//   console.log('Player Wins!')
-// } else if (playerTotal < dealerTotal) {
-//   console.log('Dealer Wins!')
-// } else {
-//   console.log('not working')
-// }
-// }
 
 
 // Build a 'master' deck of 'card' objects used to create shuffled decks
