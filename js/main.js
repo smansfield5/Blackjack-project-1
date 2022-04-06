@@ -22,6 +22,7 @@ let redChip = 500;
 let yellowChip = 250;
 let playerCard;
 let dealerCard;
+let staying; //keeps track of when plays turn is over
 
 /*----- cached element references -----*/
 const dealButton = document.getElementById('deal');
@@ -42,7 +43,7 @@ chipButton2.addEventListener('click', redBet)
 /*----- functions -----*/
 init();
 function init() {
-  
+  staying = false;
   
     render()
 }
@@ -63,7 +64,7 @@ function renderGame() {
 }
 
 function renderHand() {
-  
+  clearHands()
   player.playerHand.forEach(function(card) {
     const cardEl = document.createElement('div');
     cardEl.className = `card ${card.face}`
@@ -71,7 +72,7 @@ function renderHand() {
 })
   dealer.dealerHand.forEach(function(card, index) {
     const cardEl = document.createElement('div');
-    cardEl.className = index === 0 ? `card ${card.face}` : `card back`
+    cardEl.className = index === 0 || staying === true ? `card ${card.face}` : `card back`
     dealerCards.appendChild(cardEl)
 });
 
@@ -96,14 +97,16 @@ function determineWinner() {
 
 
 function redBet() {
+  player.bank -= redChip;
     bank.innerHTML = player.bank; 
-    player.bank -= redChip;
+    
     //chipButton2.style.visibility = "hidden";
 }
 
 function yellowBet() {
+  player.bank -= yellowChip;
     bank.innerHTML = player.bank
-    player.bank -= yellowChip;
+    
     //chipButton1.style.visibility = "hidden";
 }
 
@@ -130,6 +133,7 @@ function deal() {
 }
 
 function hit() {
+   clearHands()
     playerCard = newDeck.pop();
     player.playerHand.push(playerCard);
     player.playerHand.forEach(function(card) {
@@ -138,19 +142,34 @@ function hit() {
       playerCards.appendChild(cardEl)
       console.log(player.playerHand)
   })
-    
+    render();
   
 }
+
+function clearHands() {
+  Array.from(playerCards.children).forEach(function(card) {
+    playerCards.removeChild(card);
+  })
+  Array.from(dealerCards.children).forEach(function(card) {
+    dealerCards.removeChild(card);
+
+  }) 
+ }
+
+
 
 function dealerHit() {
  if (dealerCards < 17){
     dealerCard = newDeck.pop();
     dealer.dealerHand.push(dealerCard)
+  } else {
+    return 'stay'
   }
 }
 
 function stay() {
-
+  staying = true;
+  render();
 }
 
 
