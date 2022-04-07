@@ -4,8 +4,12 @@
 }
 
 #msg {
-    background-color: blue;
+    background-color: black;
     color: white;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
 }
 
 html {

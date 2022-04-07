@@ -57,7 +57,7 @@ function render() {
   renderHand();
   total()
 
-  determineWinner()
+  
 }
 
 function renderGame() {
@@ -145,7 +145,7 @@ function clearHands() {
 function stay() {
   staying = true;
   render();
-
+  determineWinner()
 }
 
 function dealerHit() {
@@ -185,9 +185,9 @@ function determineWinner() {
   } else if (playerTotal === 21) {
     msgEl.innerText = 'Player Blackjack!'
   } else if (dealerTotal === 21) {
-    msgEl.innerText ='dealer Blackjack'
+    msgEl.innerText ='Dealer Blackjack'
   } else if (playerTotal > 21) {
-    msgEl.innerText = 'bust'
+    msgEl.innerText = 'Player Bust'
   } else if (dealerTotal > 21) {
     msgEl.innerText = 'Dealer Bust'
   } else if (playerTotal > dealerTotal) {
