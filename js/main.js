@@ -7,8 +7,8 @@ const newDeck = getNewShuffledDeck()
 
 const player = {
   playerHand: [],
-  bank: 3000
-
+  bank: 3000,
+  bets: 0
 }
 
 const dealer = {
@@ -16,6 +16,7 @@ const dealer = {
 }
 /*----- app's state (variables) -----*/
 //let bank = 2000; //An object with the players money amount to play with
+let shuffledDeck;
 let results; //Determines which hand wins
 let winner; // Checks 
 let redChip = 500;
@@ -25,52 +26,69 @@ let dealerCard;
 let staying; //keeps track of when plays turn is over
 let playerTotal;
 let dealerTotal;
-
+let gameInProgress;
+let playerWinner;
 /*----- cached element references -----*/
+const shuffledContainer = document.getElementById('shuffled-deck-container');
 const dealButton = document.getElementById('deal');
 const playerCards = document.getElementById('player-cards');
 const dealerCards = document.getElementById('dealer-cards');
 const hitButton = document.getElementById('hit');
 const stayButton = document.getElementById('stay');
-const chipButton1 = document.getElementById('chips1')
-const chipButton2 = document.getElementById('chips2')
-const msgEl = document.getElementById('msg')
+const chipButton1 = document.getElementById('chips1');
+const chipButton2 = document.getElementById('chips2');
+const msgEl = document.getElementById('msg');
+const bet = document.getElementById('betAmt');
+const restart = document.getElementById('restart');
 
 /*----- event listeners -----*/
 hitButton.addEventListener('click', hit);
 stayButton.addEventListener('click', stay);
 dealButton.addEventListener('click', deal);
-chipButton1.addEventListener('click', yellowBet)
-chipButton2.addEventListener('click', redBet)
+chipButton1.addEventListener('click', yellowBet);
+chipButton2.addEventListener('click', redBet);
+restart.addEventListener('click', restartGame);
 
 /*----- functions -----*/
 init();
 function init() {
+  getNewShuffledDeck()
+  dealer.dealerHand = [];
+  player.playerHand = [];
   staying = false;
-
-  render()
+  gameInProgress = true;
+  playerWinner = false;
+  bet = 0;
+  dealButton.style.visibility = "visible";
+  chipButton2.style.visibility = "visible";
+  chipButton1.style.visibility = "visible";
+  restart.style.visibility = "visible";
+  render();
+  
 }
 
 function render() {
   getNewShuffledDeck();
-  renderGame();
   renderHand();
-  total()
+  total();
 
+}
+
+function restartGame() {
+  dealButton.style.visibility = "visible";
+  clearHands()
+  msgEl.innerText = '';
+  init();
   
 }
 
-function renderGame() {
-
-}
-
 function renderHand() {
-  clearHands()
+  clearHands();
   player.playerHand.forEach(function (card) {
     const cardEl = document.createElement('div');
     cardEl.className = `card ${card.face}`
     playerCards.appendChild(cardEl)
-  })
+  });
   dealer.dealerHand.forEach(function (card, index) {
     const cardEl = document.createElement('div');
     cardEl.className = index === 0 || staying === true ? `card ${card.face}` : `card back`
@@ -79,19 +97,15 @@ function renderHand() {
 
 }
 
-// function payOut() {
-//   if (player)
-// }
-
 function redBet() {
   player.bank -= redChip;
   bank.innerHTML = player.bank;
-
+  bet.textContent += player.bets;
 }
 
 function yellowBet() {
   player.bank -= yellowChip;
-  bank.innerHTML = player.bank
+  bank.innerHTML = player.bank;
 
 
 }
@@ -102,35 +116,29 @@ function deal() {
   playerCard = newDeck.pop();
   player.playerHand.push(playerCard);
   dealerCard = newDeck.pop();
-  dealer.dealerHand.push(dealerCard)
+  dealer.dealerHand.push(dealerCard);
   playerCard = newDeck.pop();
   player.playerHand.push(playerCard);
   dealerCard = newDeck.pop();
-  dealer.dealerHand.push(dealerCard)
-  // console.log('player')
-  // console.log(player.playerHand)
-  // console.log('dealer')
-  // console.log(dealer.dealerHand)
+  dealer.dealerHand.push(dealerCard);
   dealButton.style.visibility = "hidden";
   chipButton2.style.visibility = "hidden";
   chipButton1.style.visibility = "hidden";
-  render()
+  render();
 }
 
 function hit() {
-  clearHands()
+  clearHands();
   playerCard = newDeck.pop();
   player.playerHand.push(playerCard);
   player.playerHand.forEach(function (card) {
     const cardEl = document.createElement('div');
     cardEl.className = `card ${card.face}`
     playerCards.appendChild(cardEl)
-    //console.log(player.playerHand)
-
   })
   render();
 
-}
+};
 
 function clearHands() {
   Array.from(playerCards.children).forEach(function (card) {
@@ -140,22 +148,29 @@ function clearHands() {
     dealerCards.removeChild(card);
 
   })
-}
+};
 
 function stay() {
   staying = true;
+  if (dealer.dealerHand < 17) {
+    dealerCard = newDeck.pop();
+    dealer.dealerHand.push(dealerCard);
+  } else {
+    staying = true;
+  }
+
   render();
-  determineWinner()
+  dealerHit();
+  determineWinner();
 }
 
 function dealerHit() {
 
   if (dealer.dealerHand < 17) {
     dealerCard = newDeck.pop();
-    dealer.dealerHand.push(dealerCard)
+    dealer.dealerHand.push(dealerCard);
   } else {
-    dealerHit()
-    staying = true
+    staying = true;
   }
 
 }
@@ -163,58 +178,54 @@ function dealerHit() {
 
 
 function total() {
-  playerTotal = 0
+  playerTotal = 0;
   for (let p = 0; p < player.playerHand.length; p++) {
     playerTotal += player.playerHand[p].value;
-  }
-  console.log('player')
-  console.log(playerTotal)
+  } 
   dealerTotal = 0;
   for (let d = 0; d < dealer.dealerHand.length; d++) {
     dealerTotal += dealer.dealerHand[d].value;
   }
-  console.log('dealer')
-  console.log(dealerTotal)
 
 }
 
 function determineWinner() {
 
   if (playerTotal === dealerTotal) {
-    msgEl.innerText = 'Draw'
+    msgEl.innerText = 'Draw';
   } else if (playerTotal === 21) {
-    msgEl.innerText = 'Player Blackjack!'
+    msgEl.innerText = `Player Blackjack! Dealer Has ${dealerTotal}`;
+    gameInProgress = false;
+    playerWinner = true;
   } else if (dealerTotal === 21) {
-    msgEl.innerText ='Dealer Blackjack'
+    msgEl.innerText = `Dealer Blackjack! Player has ${playerTotal}`;
+    gameInProgress = false;
+    playerWinner = false;
   } else if (playerTotal > 21) {
-    msgEl.innerText = 'Player Bust'
+    msgEl.innerText = `Player Bust: Dealer has ${dealerTotal}`;
+    gameInProgress = false;
+    playerWinner = false;
   } else if (dealerTotal > 21) {
-    msgEl.innerText = 'Dealer Bust'
+    msgEl.innerText = `Dealer Bust! Player has ${playerTotal}`;
+    gameInProgress = false;
+    playerWinner = true;
   } else if (playerTotal > dealerTotal) {
-    msgEl.innerText = 'Player Wins!'
+    msgEl.innerText = `Player Wins! Dealer has ${dealerTotal}`;
+    gameInProgress = false;
+    playerWinner = true;
   } else if (playerTotal < dealerTotal) {
-    msgEl.innerText = 'Dealer Wins!'
+    msgEl.innerText = `Dealer Wins! Player has ${playerTotal}`;
+    gameInProgress = false;
+    playerWinner = false;
   } else {
-    msgEl.innerText = 'not working'
+    msgEl.innerText = 'not working';
   }
-
-}
-
-
-// Build a 'master' deck of 'card' objects used to create shuffled decks
-
+  render();
+  
+  
+};
 
 
-/*----- app's state (variables) -----*/
-let shuffledDeck;
-
-/*----- cached element references -----*/
-const shuffledContainer = document.getElementById('shuffled-deck-container');
-
-/*----- event listeners -----*/
-
-
-/*----- functions -----*/
 function getNewShuffledDeck() {
   // Create a copy of the masterDeck (leave masterDeck untouched!)
   const tempDeck = [...masterDeck];
@@ -225,7 +236,6 @@ function getNewShuffledDeck() {
     // Note the [0] after splice - this is because splice always returns an array and we just want the card object in that array
     newShuffledDeck.push(tempDeck.splice(rndIdx, 1)[0]);
   }
-  //console.log(newShuffledDeck)
   return newShuffledDeck;
 }
 
