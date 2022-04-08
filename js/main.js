@@ -64,7 +64,7 @@ function init() {
   chipButton1.style.visibility = "visible";
   restart.style.visibility = "visible";
   render();
-  
+
 }
 
 function render() {
@@ -79,7 +79,7 @@ function restartGame() {
   clearHands()
   msgEl.innerText = '';
   init();
-  
+
 }
 
 function renderHand() {
@@ -100,12 +100,12 @@ function renderHand() {
 function redBet() {
   player.bank -= redChip;
   bank.innerHTML = player.bank;
-  bet.textContent += player.bets;
+  bet.innerHTML += redChip
 }
 
 function yellowBet() {
   player.bank -= yellowChip;
-  bank.innerHTML = player.bank;
+  bank.innerText = player.bank;
 
 
 }
@@ -181,7 +181,7 @@ function total() {
   playerTotal = 0;
   for (let p = 0; p < player.playerHand.length; p++) {
     playerTotal += player.playerHand[p].value;
-  } 
+  }
   dealerTotal = 0;
   for (let d = 0; d < dealer.dealerHand.length; d++) {
     dealerTotal += dealer.dealerHand[d].value;
@@ -221,8 +221,8 @@ function determineWinner() {
     msgEl.innerText = 'not working';
   }
   render();
-  
-  
+
+
 };
 
 
