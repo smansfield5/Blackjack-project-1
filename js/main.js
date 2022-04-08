@@ -28,6 +28,7 @@ let playerTotal;
 let dealerTotal;
 let gameInProgress;
 let playerWinner;
+
 /*----- cached element references -----*/
 const shuffledContainer = document.getElementById('shuffled-deck-container');
 const dealButton = document.getElementById('deal');
@@ -51,6 +52,7 @@ restart.addEventListener('click', restartGame);
 
 /*----- functions -----*/
 init();
+
 function init() {
   getNewShuffledDeck()
   dealer.dealerHand = [];
@@ -110,8 +112,6 @@ function yellowBet() {
 
 }
 
-
-
 function deal() {
   playerCard = newDeck.pop();
   player.playerHand.push(playerCard);
@@ -158,7 +158,6 @@ function stay() {
   } else {
     staying = true;
   }
-
   render();
   dealerHit();
   determineWinner();
